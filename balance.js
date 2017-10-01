@@ -19,8 +19,12 @@ module.exports = function(RED) {
                 node.status({ fill: "green", shape: "ring", text: "sending request..." });
                 var balance = node.apiconfig.api.account.balance(address);
                 balance.then(function(balanceData) {
-                    balanceData.request = {address: address};
-                    node.send(balanceData);
+                    msg.payload = {
+                        balanceData : balanceData,
+                        address: address
+                    };
+                   
+                    node.send(msg);
                     node.status({ fill: "green", shape: "dot", text: "done" });
                 });
             } else {
