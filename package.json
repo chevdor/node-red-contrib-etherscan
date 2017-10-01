@@ -4,11 +4,15 @@
   "description": "",
   "author": "",
   "dependencies": {
+    "etherscan-api": "^3.0.11"
   },
-	"keywords": [ "node-red" ],
-	"node-red": {
-		"nodes": {
-			"Etherscan": "Etherscan.js"
-		}
-	}
+  "keywords": [
+    "node-red"
+  ],
+  "node-red": {
+    "nodes": {
+      "Etherscan": "Etherscan.js",
+      "Balance": "balance.js"
+    }
+  }
 }

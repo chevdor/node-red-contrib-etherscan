@@ -11,8 +11,10 @@ module.exports = function(RED) {
         node.on('input', function(msg) {
             node.send(msg);
         });
+
         node.on("close", function() {
         });
     };
+    
     RED.nodes.registerType("Etherscan", NodeConstructor);
 }

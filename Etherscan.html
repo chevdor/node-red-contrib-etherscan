@@ -1,9 +1,10 @@
 <script type="text/javascript">
     RED.nodes.registerType('Etherscan',{
-        category: 'input',
-        color: '#333333',
-        inputs:0,
+        category: 'Etherscan',
+        color: '#D8BFD8',
+        inputs:1,
         outputs:1,
+        icon: "etherscan.png",
         label: function() {
             return this.name||"Etherscan'";
         }
@@ -18,5 +19,5 @@
 </script>
 
 <script type="text/x-red" data-help-name="Etherscan">
-    <p>Description</p>
+    <p>Ethereum Etherscan node.</p>
 </script>
