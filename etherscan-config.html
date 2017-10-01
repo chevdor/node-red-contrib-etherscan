@@ -1,28 +1,30 @@
 <script type="text/javascript">
-    RED.nodes.registerType('etherscan-config',{
-        category: 'config',
-        icon: "etherscan.png",
-        label: function() {
-            return this.network + ' - ' + this.apikey
-        },
-        defaults: {
-            apikey: {value:"YourApiKey", required:true},
-            network: {value:"ropsten", required:true}
-        },
-    });
+RED.nodes.registerType('etherscan-config', {
+    category: 'config',
+    icon: "etherscan.png",
+    label: function() {
+        return this.network;
+    },
+    defaults: {
+        network: { value: "ropsten", required: true },
+        api: { value: {} },
+        // apikey: {value:"YourApiKey", required:true}
+    },
+    credentials: {
+        apikey: {type: 'password'}
+    },
+});
 </script>
-
 <script type="text/x-red" data-template-name="etherscan-config">
     <div class="form-row">
-        <label for="node-config-input-apikey"><i class="icon-bookmark"></i> API Key</label>
-        <input type="text" id="node-config-input-apikey">
+        <label for="node-input-apikey"><i class="icon-bookmark"></i> API Key</label>
+        <input type="password" id="node-input-apikey">
     </div>
     <div class="form-row">
         <label for="node-config-input-network"><i class="icon-bookmark"></i> Network</label>
         <input type="text" id="node-config-input-network">
     </div>
 </script>
-
 <script type="text/x-red" data-help-name="etherscan-config">
     <p>Ethereum Etherscan node.</p>
 </script>

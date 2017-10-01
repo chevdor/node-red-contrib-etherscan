@@ -1,5 +1,3 @@
-var api = require('etherscan-api').init('YourApiKey');
-
 module.exports = function(RED) {
 
     if (false) { // Test for nodes compatibilities
@@ -7,29 +5,34 @@ module.exports = function(RED) {
     }
 
     function NodeConstructor(config) {
+        var api = require('etherscan-api').init('YourApiKey');
+
         RED.nodes.createNode(this, config);
-        this.EtherscanConfig = RED.nodes.getNode(config.EtherscanConfig);
+        this.apiconfig = RED.nodes.getNode(config.apiconfig);
 
         var node = this;
-        var balance = api.account.balance('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae');
 
         node.on('input', function(msg) {
-            node.status({fill:"green",shape:"ring",text:"sending request..."});
+            var address = msg.payload;
 
-            // node.send(msg);
-            balance.then(function(balanceData){
-                balanceData.payload = balanceData.result;
-                // balanceData.apiKey= node.EtherscanConfig.apiKey;
-                node.send(balanceData);
-                node.status({fill:"green",shape:"dot",text:"done"});
-            });
+            if (node.apiconfig) {
+                node.status({ fill: "green", shape: "ring", text: "sending request..." });
+                var balance = node.apiconfig.api.account.balance(address);
+                balance.then(function(balanceData) {
+                    balanceData.request = {address: address};
+                    node.send(balanceData);
+                    node.status({ fill: "green", shape: "dot", text: "done" });
+                });
+            } else {
+                // not configured
+                node.status({ fill: "red", shape: "dot", text: "missing config" });
+            }
         });
 
         node.on("close", function() {
-            node.status({fill:"gray",shape:"dot",text:"closing"});
-
+            node.status({ fill: "gray", shape: "dot", text: "closing" });
         });
     };
-    
+
     RED.nodes.registerType("Balance", NodeConstructor);
 }

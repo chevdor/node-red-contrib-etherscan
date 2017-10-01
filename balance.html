@@ -1,33 +1,31 @@
 <script type="text/javascript">
-    RED.nodes.registerType('Balance',{
-        category: 'Etherscan',
-        color: '#D8BFD8',
-        inputs: 1,
-        outputs: 1,
-        icon: "etherscan.png",
-        label: function() {
-            return this.name||"Balance";
-        },
-        inputLabels: ["address"],
-        outputLabels: ["result"],
-        align: 'left',
-        defaults: {
-            config: {value:'', type:'etherscan-config'}
-        },
-    });
+RED.nodes.registerType('Balance', {
+    category: 'Etherscan',
+    color: '#D8BFD8',
+    inputs: 1,
+    outputs: 1,
+    icon: "etherscan.png",
+    label: function() {
+        return this.name || "Balance";
+    },
+    inputLabels: ["address"],
+    outputLabels: ["result"],
+    align: 'left',
+    defaults: {
+        apiconfig: { value: '', type: 'etherscan-config' },
+    }
+});
 </script>
-
 <script type="text/x-red" data-template-name="Balance">
     <div class="form-row">
-        <label for="node-input-config"><i class="icon-tag"></i> Config</label>
-        <input type="text" id="node-input-config">
+        <label for="node-input-apiconfig"><i class="icon-tag"></i> Config</label>
+        <input type="text" id="node-input-apiconfig">
     </div>
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
 </script>
-
 <script type="text/x-red" data-help-name="Etherscan">
     <p>Ethereum Etherscan node.</p>
 </script>
