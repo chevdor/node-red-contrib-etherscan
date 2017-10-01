@@ -6,21 +6,21 @@
         outputs: 1,
         icon: "etherscan.png",
         label: function() {
-            return this.name||"Balance'";
+            return this.name||"Balance";
         },
         inputLabels: ["address"],
         outputLabels: ["result"],
         align: 'left',
         defaults: {
-            apiconfig: {value:'', type:'etherscan-config'}
+            config: {value:'', type:'etherscan-config'}
         },
     });
 </script>
 
 <script type="text/x-red" data-template-name="Balance">
     <div class="form-row">
-        <label for="node-input-apiconfig"><i class="icon-tag"></i> Config</label>
-        <input type="text" id="node-input-apiconfig">
+        <label for="node-input-config"><i class="icon-tag"></i> Config</label>
+        <input type="text" id="node-input-config">
     </div>
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>

@@ -1,0 +1,36 @@
+<script type="text/javascript">
+RED.nodes.registerType('Stats', {
+    category: 'Etherscan',
+    color: '#D8BFD8',
+    inputs: 1,
+    outputs: 1,
+    icon: "etherscan.png",
+    label: function() {
+        return this.name || "Stats";
+    },
+    defaults: {
+        config: { value: '', type: 'etherscan-config' },
+        method: { value: '', type: 'string' }
+    },
+});
+</script>
+<script type="text/x-red" data-template-name="Stats">
+    <div class="form-row">
+        <label for="node-input-config"><i class="icon-tag"></i> Config</label>
+        <input type="text" id="node-input-config">
+    </div>
+    <div class="form-row">
+        <label for="node-input-method"><i class="icon-tag"></i> Method</label>
+        <select type="text" id="node-input-method">
+            <option value="ethsupply">Eth Supply</option>
+            <option value="ethprice">Eth Price</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="Stats">
+    <p>Ethereum Stats.</p>
+</script>
