@@ -11,11 +11,11 @@ module.exports = function(RED) {
         this.EtherscanConfig = RED.nodes.getNode(config.EtherscanConfig);
 
         var node = this;
-
         var balance = api.account.balance('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae');
-        node.status({fill:"green",shape:"ring",text:"connected"});
 
         node.on('input', function(msg) {
+            node.status({fill:"green",shape:"ring",text:"sending request..."});
+
             // node.send(msg);
             balance.then(function(balanceData){
                 balanceData.payload = balanceData.result;
@@ -26,6 +26,8 @@ module.exports = function(RED) {
         });
 
         node.on("close", function() {
+            node.status({fill:"gray",shape:"dot",text:"closing"});
+
         });
     };
     
