@@ -12,7 +12,7 @@
   "node-red": {
     "nodes": {
       "Stats": "stats.js",
-      "Node": "node.js",
+      "Etherscan": "etherscan.js",
       "Balance": "balance.js",
       "etherscan-config": "etherscan-config.js"
     }

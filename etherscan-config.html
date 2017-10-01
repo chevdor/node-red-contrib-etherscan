@@ -22,7 +22,13 @@ RED.nodes.registerType('etherscan-config', {
     </div>
     <div class="form-row">
         <label for="node-config-input-network"><i class="icon-bookmark"></i> Network</label>
-        <input type="text" id="node-config-input-network">
+        <!-- <input type="text" id="node-config-input-network"> -->
+        <select type="text" id="node-config-input-network">
+            <option value="homestead">Homestead</option>
+            <option value="ropsten">Ropsten</option>
+            <option value="kovan">Kovan</option>
+            <option value="rinkeby">Rinkeby</option>
+        </select>
     </div>
 </script>
 <script type="text/x-red" data-help-name="etherscan-config">

@@ -4,6 +4,6 @@
 ## Intro
 
 Etherscan is a Blockchain Explorer for Ethereum.
-This plugin brings the Etherscan API to Node-Red.
+This plugin brings the Etherscan API to https://nodered.org/[Node-RED].
 
 image::doc/ss01.png[]

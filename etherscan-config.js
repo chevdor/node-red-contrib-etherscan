@@ -3,10 +3,13 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         this.apikey = config.apikey;
         this.network = config.network;
-        this.api = require('etherscan-api').init(this.apikey, this.network);
+        if (this.network !== 'homestead')
+            this.api = require('etherscan-api').init(this.apikey, this.network);
+        else
+            this.api = require('etherscan-api').init(this.apikey);
     }
     RED.nodes.registerType("etherscan-config", RemoteServerNode, {
-    	credentials: {
+        credentials: {
             apikey: { type: "password" }
         }
     });

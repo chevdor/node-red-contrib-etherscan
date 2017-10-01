@@ -12,7 +12,8 @@ module.exports = function(RED) {
         node.on('input', function(msg) {
             var call = null;
             if (node.etherscan) {
-                console.log(node.etherscan.api);
+                node.status({ fill: "green", shape: "ring", text: "sending request..." });
+
                 switch (config.method) {
                     case "ethsupply":
                         call = node.etherscan.api.stats.ethsupply();
@@ -32,7 +33,12 @@ module.exports = function(RED) {
                     };
 
                     node.send(msg);
+                    node.status({ fill: "green", shape: "dot", text: "done" });
+
                 });
+            } else {
+                node.status({ fill: "red", shape: "dot", text: "missing config" });
+
             }
         });
 
