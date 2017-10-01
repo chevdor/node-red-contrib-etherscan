@@ -5,19 +5,17 @@ module.exports = function(RED) {
     }
 
     function NodeConstructor(config) {
-        var api = require('etherscan-api').init('YourApiKey');
-
         RED.nodes.createNode(this, config);
-        this.apiconfig = RED.nodes.getNode(config.apiconfig);
+        this.etherscan = RED.nodes.getNode(config.apiconfig);
 
         var node = this;
 
         node.on('input', function(msg) {
             var address = msg.payload;
 
-            if (node.apiconfig) {
+            if (node.etherscan) {
                 node.status({ fill: "green", shape: "ring", text: "sending request..." });
-                var balance = node.apiconfig.api.account.balance(address);
+                var balance = node.etherscan.api.account.balance(address);
                 balance.then(function(balanceData) {
                     msg.payload = {
                         balanceData : balanceData,

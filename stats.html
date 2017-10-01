@@ -9,21 +9,22 @@ RED.nodes.registerType('Stats', {
         return this.name || "Stats";
     },
     defaults: {
-        config: { value: '', type: 'etherscan-config' },
+        apiconfig: { value: '', type: 'etherscan-config' },
         method: { value: '', type: 'string' }
     },
 });
 </script>
 <script type="text/x-red" data-template-name="Stats">
-    <div class="form-row">
-        <label for="node-input-config"><i class="icon-tag"></i> Config</label>
-        <input type="text" id="node-input-config">
+   <div class="form-row">
+        <label for="node-input-apiconfig"><i class="icon-tag"></i> Config</label>
+        <input type="text" id="node-input-apiconfig">
     </div>
     <div class="form-row">
         <label for="node-input-method"><i class="icon-tag"></i> Method</label>
         <select type="text" id="node-input-method">
             <option value="ethsupply">Eth Supply</option>
             <option value="ethprice">Eth Price</option>
+            <option value="tokensupply">Token Supply</option>
         </select>
     </div>
     <div class="form-row">
