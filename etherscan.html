@@ -35,11 +35,12 @@ var endpoints = {
 
 function populateEndpoints() {
     $('#node-input-endpoint').empty();
-    var items = Object.keys(endpoints);
+    var items = Object.keys(endpoints).sort();
     for (var i = 0; i < items.length; i++) {
         var val = items[i];
-        $('#node-input-endpoint').append('<option value="' + val + '">' + val + '</option>');
+        $('#node-input-endpoint').append('<option selected="' + (this.endpoint === 'val' ? 'selected' : '') + '" value="' + val + '">' + val + '</option>');
     }
+    if (this.endpoint) $("#node-input-endpoint").val(this.endpoint);
 }
 
 RED.nodes.registerType('Etherscan', {
@@ -49,34 +50,43 @@ RED.nodes.registerType('Etherscan', {
     outputs: 1,
     icon: "etherscan.png",
     label: function() {
-        return this.name || "Etherscan";
+        if (this.name) return this.name;
+        if (this.endpoint && this.method) return this.endpoint + ': ' + this.method;
+        return 'Etherscan';
     },
     defaults: {
         apiconfig: { value: '', type: 'etherscan-config' },
         endpoint: { value: '', type: 'string', required: true },
         method: { value: '', type: 'string', required: true }
     },
-    oneditsave: function() {
-        // alert('oneditsave');
-    },
+    oneditsave: function() {},
     oneditprepare: function() {
         var previous = null;
         populateEndpoints();
+
         $("#node-input-endpoint").on('focus', function() { previous = this.value; }).change(function() {
             if (previous == null) { previous = $("#node-input-endpoint").val(); }
-            var endpoint = $("#node-input-endpoint").val();
+            this.endpoint = $("#node-input-endpoint").val();
 
-            if (endpoints[endpoint] && endpoints[endpoint].length) {
+            if (endpoints[this.endpoint] && endpoints[this.endpoint].length) {
                 $('#node-input-method').empty();
-                for (var i = 0; i < endpoints[endpoint].length; i++) {
-                    var val = endpoints[endpoint][i];
-                    $('#node-input-method').append('<option value=' + val + '>' + val + '</option>');
+                var ep = endpoints[this.endpoint].sort();
+                for (var i = 0; i < ep.length; i++) {
+                    var val = ep[i];
+                    $('#node-input-method').append('<option selected="' + (this.method === 'val' ? 'selected' : '') + '" value=' + val + '>' + val + '</option>');
                 }
             } else {
                 $('#node-input-method').empty();
                 $('#node-input-method').append('<option value="">Select endpoint first</option>');
             }
         })
+
+        $("#node-input-endpoint").on('focus', function() { previous = this.value; }).change(function() {
+            if (previous == null) { previous = $("#node-input-endpoint").val(); }
+            this.method = $("#node-input-method").val();
+        })
+
+        if (this.method) $("#node-input-method").val(this.method);
     }
 });
 </script>
@@ -86,7 +96,7 @@ RED.nodes.registerType('Etherscan', {
         <input type="text" id="node-input-apiconfig">
     </div>
     <div class="form-row">
-        <label for="node-input-endpoint"><i class="icon-tag"></i> Method</label>
+        <label for="node-input-endpoint"><i class="icon-tag"></i> Endpoint</label>
         <select type="text" id="node-input-endpoint" />
     </div>
     <div class="form-row">
