@@ -1,7 +1,7 @@
 {
   "name": "node-red-contrib-etherscan",
   "version": "0.0.1",
-  "description": "",
+  "description": "Dev in progress...",
   "author": "",
   "dependencies": {
     "etherscan-api": "^3.0.11"

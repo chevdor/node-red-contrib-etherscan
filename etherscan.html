@@ -1,4 +1,47 @@
 <script type="text/javascript">
+var endpoints = {
+    'log': ['getLogs'],
+    'proxy': ['eth_blockNumber',
+        'eth_getBlockByNumber',
+        'eth_getUncleByBlockNumberAndIndex',
+        'eth_getBlockTransactionCountByNumber',
+        'eth_getTransactionByHash',
+        'eth_getTransactionByBlockNumberAndIndex',
+        'eth_getTransactionCount',
+        'eth_sendRawTransaction',
+        'eth_getTransactionReceipt',
+        'eth_call',
+        'eth_getCode',
+        'eth_getStorageAt',
+        'eth_gasPrice',
+        'eth_estimateGas'
+    ],
+    'stats': [
+        'tokensupply',
+        'ethsupply',
+        'ethprice'
+    ],
+    'block': ['getblockreward'],
+    'transaction': ['getstatus'],
+    'contract': ['getabi'],
+    'account': [
+        'tokenbalance',
+        'balance',
+        'txlistinternal',
+        'txlist',
+        'getminedblocks'
+    ]
+}
+
+function populateEndpoints() {
+    $('#node-input-endpoint').empty();
+    var items = Object.keys(endpoints);
+    for (var i = 0; i < items.length; i++) {
+        var val = items[i];
+        $('#node-input-endpoint').append('<option value="' + val + '">' + val + '</option>');
+    }
+}
+
 RED.nodes.registerType('Etherscan', {
     category: 'Etherscan',
     color: '#D8BFD8',
@@ -10,78 +53,45 @@ RED.nodes.registerType('Etherscan', {
     },
     defaults: {
         apiconfig: { value: '', type: 'etherscan-config' },
-        endpoint: { value: '', type: 'string', required:true },
-        method: { value: '', type: 'string', required:true }
+        endpoint: { value: '', type: 'string', required: true },
+        method: { value: '', type: 'string', required: true }
+    },
+    oneditsave: function() {
+        // alert('oneditsave');
+    },
+    oneditprepare: function() {
+        var previous = null;
+        populateEndpoints();
+        $("#node-input-endpoint").on('focus', function() { previous = this.value; }).change(function() {
+            if (previous == null) { previous = $("#node-input-endpoint").val(); }
+            var endpoint = $("#node-input-endpoint").val();
+
+            if (endpoints[endpoint] && endpoints[endpoint].length) {
+                $('#node-input-method').empty();
+                for (var i = 0; i < endpoints[endpoint].length; i++) {
+                    var val = endpoints[endpoint][i];
+                    $('#node-input-method').append('<option value=' + val + '>' + val + '</option>');
+                }
+            } else {
+                $('#node-input-method').empty();
+                $('#node-input-method').append('<option value="">Select endpoint first</option>');
+            }
+        })
     }
 });
 </script>
-
-<!-- { log: { getLogs: [Function: getLogs] },
-  proxy: 
-   { eth_blockNumber: [Function: eth_blockNumber],
-     eth_getBlockByNumber: [Function: eth_getBlockByNumber],
-     eth_getUncleByBlockNumberAndIndex: [Function: eth_getUncleByBlockNumberAndIndex],
-     eth_getBlockTransactionCountByNumber: [Function: eth_getBlockTransactionCountByNumber],
-     eth_getTransactionByHash: [Function: eth_getTransactionByHash],
-     eth_getTransactionByBlockNumberAndIndex: [Function: eth_getTransactionByBlockNumberAndIndex],
-     eth_getTransactionCount: [Function: eth_getTransactionCount],
-     eth_sendRawTransaction: [Function: eth_sendRawTransaction],
-     eth_getTransactionReceipt: [Function: eth_getTransactionReceipt],
-     eth_call: [Function: eth_call],
-     eth_getCode: [Function: eth_getCode],
-     eth_getStorageAt: [Function: eth_getStorageAt],
-     eth_gasPrice: [Function: eth_gasPrice],
-     eth_estimateGas: [Function: eth_estimateGas] },
-  stats: 
-   { tokensupply: [Function: tokensupply],
-     ethsupply: [Function: ethsupply],
-     ethprice: [Function: ethprice] },
-  block: { getblockreward: [Function: getblockreward] },
-  transaction: { getstatus: [Function: getstatus] },
-  contract: { getabi: [Function: getabi] },
-  account: 
-   { tokenbalance: [Function: tokenbalance],
-     balance: [Function: balance],
-     txlistinternal: [Function: txlistinternal],
-     txlist: [Function: txlist],
-     getminedblocks: [Function: getminedblocks] } }
- -->
-
 <script type="text/x-red" data-template-name="Etherscan">
     <div class="form-row">
         <label for="node-input-apiconfig"><i class="icon-tag"></i> Config</label>
         <input type="text" id="node-input-apiconfig">
     </div>
     <div class="form-row">
-        <label for="node-input-method"><i class="icon-tag"></i> Method</label>
-        <select type="text" id="node-input-endpoint">
-            <option value="log">log</option>
-            <option value="proxy">proxy</option>
-            <option value="stats">stats</option>
-            <option value="block">block</option>
-            <option value="transaction">transaction</option>
-            <option value="contract">contract</option>
-            <option value="account">account</option>
-        </select>
+        <label for="node-input-endpoint"><i class="icon-tag"></i> Method</label>
+        <select type="text" id="node-input-endpoint" />
     </div>
     <div class="form-row">
         <label for="node-input-method"><i class="icon-tag"></i> Method</label>
-        <select type="text" id="node-input-method">
-            <option value="eth_blockNumber">eth_blockNumber</option>
-            <option value="eth_getBlockByNumber">eth_getBlockByNumber</option>
-            <option value="eth_getUncleByBlockNumberAndIndex">eth_getUncleByBlockNumberAndIndex</option>
-            <option value="eth_getBlockTransactionCountByNumber">eth_getBlockTransactionCountByNumber</option>
-            <option value="eth_getTransactionByHash">eth_getTransactionByHash</option>
-            <option value="eth_getTransactionByBlockNumberAndIndex">eth_getTransactionByBlockNumberAndIndex</option>
-            <option value="eth_getTransactionCount">eth_getTransactionCount</option>
-            <option value="eth_sendRawTransaction">eth_sendRawTransaction</option>
-            <option value="eth_getTransactionReceipt">eth_getTransactionReceipt</option>
-            <option value="eth_call">eth_call</option>
-            <option value="eth_getCode">eth_getCode</option>
-            <option value="eth_getStorageAt">eth_getStorageAt</option>
-            <option value="eth_gasPrice">eth_gasPrice</option>
-            <option value="eth_estimateGas">eth_estimateGas</option>
-        </select>
+        <select type="text" id="node-input-method" />
     </div>
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>

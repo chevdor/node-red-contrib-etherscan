@@ -38,6 +38,9 @@ module.exports = function(RED) {
         });
 
         node.on("close", function() {});
+
+        
+        
     };
 
     RED.nodes.registerType("Etherscan", NodeConstructor);
