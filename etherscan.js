@@ -4,6 +4,19 @@ module.exports = function(RED) {
         throw "Info : not compatible";
     }
 
+    /**
+     * Get input values 
+     * @param  args Array of string with the names of inputs
+     */
+    function getInputs(args, msg) {
+        var res = [];
+        if (!args) return [];
+        for (var i = 0; i < args.length; i++) {
+            res[args[i]] = msg.payload[args[i]];
+        }
+        return res;
+    }
+
     function NodeConstructor(config) {
         RED.nodes.createNode(this, config);
         this.etherscan = RED.nodes.getNode(config.apiconfig);
@@ -13,8 +26,10 @@ module.exports = function(RED) {
             // node.send(msg);
             var call = null;
             if (node.etherscan) {
-                // console.log(node.etherscan.api);
-                call = eval('node.etherscan.api.' + config.endpoint + '.' + config.method)();
+                var args = getInputs(config.args, msg);
+                console.log('config.args', config.args);
+                console.log('args', args);
+                call = eval('node.etherscan.api.' + config.endpoint + '.' + config.method)(...args);
 
                 call.then(function(data) {
                     msg.payload = {
